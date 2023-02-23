@@ -29,4 +29,29 @@ def get_coordinate_input(prompt):
             print("Sorry, invalid value. Enter a positive coordinates in the format x,y.")
 
 
+#Created an enviroment [he location using coordinates];
+def create_environment(n):
+    environment = []
+    for i in range(n):
+        row = []
+        for j in range(n):
+            row.append("clean ")
+        environment.append(row)
+    return environment
+
+#This is created mark_dirt to environment by using loaction a loop:
+def mark_dirt(environment, x, y):
+    environment[x-1][y-1] = "dirt  "
+
+
+#Display the environment by table format;
+def display_environment(environment):
+    n = len(environment)
+    
+    print("+{}+".format("**" * (n * 3 + n + 1)))
+    #This loop for decorate row and colum:
+    for row in environment:
+        print("| {} |".format(" | ".join(row)))
+    
+    print("+{}+".format("**" * (n * 3 + n + 1)))
 
