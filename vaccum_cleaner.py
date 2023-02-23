@@ -54,4 +54,61 @@ def display_environment(environment):
         print("| {} |".format(" | ".join(row)))
     
     print("+{}+".format("**" * (n * 3 + n + 1)))
+    
+#This is input to know the size of the environment:
+n = get_integer_input("Enter the size of the environment: ")
+environment = create_environment(n)
+while True:
+    #this is the location of the dirt to stop a program;
+    dirt_location = get_coordinate_input("Enter the location of the dirt (or type 'q' to stop): ")
+    if dirt_location == "q":
+        break
+    mark_dirt(environment, dirt_location[0], dirt_location[1])
+
+#Display_an environment:
+display_environment(environment)
+agent_type = input("Do you want to start cleaning: Press - 's' ")
+
+if agent_type == "s":
+    agent = AutoAgent()
+else:
+    print("Invalid input. Try Again!")
+    exit()
+
+
+#Starting a cleaner point (X|Y);
+start_location = get_coordinate_input("Enter the start location of the cleaner: ")
+cleaner = Cleaner(start_location[0], start_location[1])
+
+while not is_goal_state(environment):
+    display_environment(cleaner.get_environment_with_cleaner(environment))
+  
+    if isinstance(agent, AutoAgent):
+        action = agent.get_action(environment, cleaner)
+    else:
+        print("Invalid agent type.")
+        exit()
+    if action == "left":
+        cleaner.move_left(environment)
+        print("Cleaner moved left.")
+    elif action == "right":
+        cleaner.move_right(environment)
+        print("Cleaner moved right.")
+    elif action == "up":
+        cleaner.move_up(environment)
+        print("Cleaner moved up.")
+    elif action == "down":
+        cleaner.move_down(environment)
+        print("Cleaner moved down.")
+        cleaner.move_left(environment)
+    elif action == "clean":
+        cleaner.clean(environment)
+        print("Clean")
+        
+    else:
+        print("Invalid action. Try again.")
+    
+#all the dirt is cleaned, give a notice that the task is completed.
+print("Task is completed!")
+display_environment(environment)
 
