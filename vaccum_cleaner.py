@@ -4,6 +4,67 @@
 print("***Welcome to vaccum cleaner***")
 print('------------------------------------')
 
+#This class defined: cleaner have 5 actions: move left, move right, move up, move down, clean..
+class Cleaner:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def move_left(self, environment):
+        if self.y > 1:
+            self.y -= 1
+            self.clean(environment)
+
+    def move_right(self, environment):
+        if self.y < len(environment[0]):
+            self.y += 1
+            self.clean(environment)
+
+    def move_up(self, environment):
+        if self.x > 1:
+            self.x -= 1
+            self.clean(environment)
+
+    def move_down(self, environment):
+        if self.x < len(environment):
+            self.x += 1
+            self.clean(environment)
+
+    def clean(self, environment):
+        if environment[self.x-1][self.y-1] == "dirt  ":
+            environment[self.x-1][self.y-1] = "clean "
+   
+    def get_environment_with_cleaner(self, environment):
+        new_environment = [row.copy() for row in environment]
+        new_environment[self.x-1][self.y-1] += "<"
+        return new_environment
+    
+
+
+#Defined a Auto_agent to take an actions:
+class AutoAgent:
+    def get_action(self, environment, cleaner):
+        if environment[cleaner.x-1][cleaner.y-1] == "dirt  ":
+            return "clean"
+        else:
+            if cleaner.x % 2 == 1:
+                if cleaner.y < len(environment[0]):
+                    return "right"
+                else:
+                    return "down"
+            else: 
+                if cleaner.y > 1:
+                    return "left"
+                else:
+                    return "down"
+                
+
+#Display the environment at goal state;
+def is_goal_state(environment):
+    for row in environment:
+        if "dirt  " in row:
+            return False
+    return True
                 
 #This program is reported an error and ask the user to re-enter. 
 def get_integer_input(prompt):
